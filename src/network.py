@@ -62,7 +62,7 @@ class NeuralNetwork(object):
 		for b, w in zip(self.biases, self.weights):
 			z = np.dot(w, activation)+b
 			zs.append(z)
-			activations = sigmoid(z)
+			activation = sigmoid(z)
 			activations.append(activation)
 
 		"""activations[-1] = the output of the last layer
