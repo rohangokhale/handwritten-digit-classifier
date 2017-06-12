@@ -75,6 +75,9 @@ class NeuralNetwork(object):
 		for l in xrange(self.numLayers-2, 0, -1):
 			z = zs[l]
 			sPrime = sigmoidPrime(z)
+			print("Starting at:")
+			print(self.numLayers-2)
+			print(l+1)
 			delta = np.dot(self.weights[l+1].transpose(), delta) * sPrime
 			delB[l] = delta
 			delW[l] = np.dot(delta, activations[l-1].transpose())
