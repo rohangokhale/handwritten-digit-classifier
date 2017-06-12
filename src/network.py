@@ -24,7 +24,7 @@ class NeuralNetwork(object):
 
 	def train(self, trainingData, numEpochs, miniBatchSize, learnRate, testData=None):
 		if testData:
-			nTest=len(test)
+			nTest=len(testData)
 		n=len(trainingData)
 		for epoch in xrange(numEpochs):
 			"""create mini batches by shuffling the data and then chopping it up into
