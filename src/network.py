@@ -72,6 +72,7 @@ class NeuralNetwork(object):
 		delW[-1] = np.dot(delta, activations[-2].transpose())
 
 		"""Work backwards from second to last layer to the first non-input layer"""
+		"""
 		for l in xrange(self.numLayers-2, 0, -1):
 			z = zs[l]
 			sPrime = sigmoidPrime(z)
@@ -81,6 +82,13 @@ class NeuralNetwork(object):
 			delB[l] = delta
 			print(l-1)
 			delW[l] = np.dot(delta, activations[l-1].transpose())
+		"""
+		for l in xrange(2, self.numLayers):
+				z = zs[-l]
+				sPrime = sigmoidPrime(z)
+				delta = np.dot(self.weights[-l+1].transpose(), delta)*sPrime
+				delB[-l] = delta
+				delW[-l] = np.dot(delta, activations[-l-1].transpose())
 
 		return(delB, delW)
 
