@@ -47,7 +47,7 @@ class NeuralNetwork(object):
 		for x, y in batch:
 			del2B, del2W = self.backprop(x, y)
 			delB = [dB+d2B for dB, d2B in zip(delB, del2B)]
-			delW = [dW+d2W for d2, d2W in zip(delW, del2B)]
+			delW = [dW+d2W for dW, d2W in zip(delW, del2B)]
 		self.biases = [b-(learnRate/len(batch))*dB for b, dB in zip(self.biases, delB)]
 		self.weights = [w-(learnRate/len(batch))*dW for w, dW in zip(self.weights, delW)]
 		
