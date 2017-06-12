@@ -34,8 +34,11 @@ class NeuralNetwork(object):
 			for batch in miniBatches:
 				self.updateMiniBatch(batch, learnRate)
 			if testData:
+				"""
 				accuracy = 100.0*self.evaluate(testData)/nTest
 				print("Epoch {0}: {1}".format(epoch, accuracy))
+				"""
+				print("Epoch {0}: {1} / {2}".format(epoch, self.evaluate(testData), nTest))
 			else:
 				print("Epoch {0} done".format(epoch))
 
