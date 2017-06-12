@@ -16,7 +16,7 @@ import random
 # Third-party libraries
 import numpy as np
 
-class Network(object):
+class NeuralNetwork(object):
 
     def __init__(self, sizes):
         """The list ``sizes`` contains the number of neurons in the
@@ -41,28 +41,28 @@ class Network(object):
             a = sigmoid(np.dot(w, a)+b)
         return a
 
-    def SGD(self, training_data, epochs, mini_batch_size, eta,
-            test_data=None):
+    def SGD(self, trainingData, epochs, mini_batch_size, eta,
+            testData=None):
         """Train the neural network using mini-batch stochastic
-        gradient descent.  The ``training_data`` is a list of tuples
+        gradient descent.  The ``trainingData`` is a list of tuples
         ``(x, y)`` representing the training inputs and the desired
         outputs.  The other non-optional parameters are
-        self-explanatory.  If ``test_data`` is provided then the
+        self-explanatory.  If ``testData`` is provided then the
         network will be evaluated against the test data after each
         epoch, and partial progress printed out.  This is useful for
         tracking progress, but slows things down substantially."""
-        if test_data: n_test = len(test_data)
-        n = len(training_data)
+        if testData: n_test = len(testData)
+        n = len(trainingData)
         for j in xrange(epochs):
-            random.shuffle(training_data)
+            random.shuffle(trainingData)
             mini_batches = [
-                training_data[k:k+mini_batch_size]
+                trainingData[k:k+mini_batch_size]
                 for k in xrange(0, n, mini_batch_size)]
             for mini_batch in mini_batches:
                 self.update_mini_batch(mini_batch, eta)
-            if test_data:
+            if testData:
                 print "Epoch {0}: {1} / {2}".format(
-                    j, self.evaluate(test_data), n_test)
+                    j, self.evaluate(testData), n_test)
             else:
                 print "Epoch {0} complete".format(j)
 
@@ -116,13 +116,13 @@ class Network(object):
             delW[-l] = np.dot(delta, activations[-l-1].transpose())
         return (delB, delW)
 
-    def evaluate(self, test_data):
+    def evaluate(self, testData):
         """Return the number of test inputs for which the neural
         network outputs the correct result. Note that the neural
         network's output is assumed to be the index of whichever
         neuron in the final layer has the highest activation."""
         test_results = [(np.argmax(self.feedforward(x)), y)
-                        for (x, y) in test_data]
+                        for (x, y) in testData]
         return sum(int(x == y) for (x, y) in test_results)
 
     def cost_derivative(self, output_activations, y):
