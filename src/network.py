@@ -76,9 +76,10 @@ class NeuralNetwork(object):
 			z = zs[l]
 			sPrime = sigmoidPrime(z)
 			print("Weights length = {0}".format(len(self.weights)))
-			print(l+1)
-			delta = np.dot(self.weights[l+1].transpose(), delta) * sPrime
+			print(l)
+			delta = np.dot(self.weights[l].transpose(), delta) * sPrime
 			delB[l] = delta
+			print(l-1)
 			delW[l] = np.dot(delta, activations[l-1].transpose())
 
 		return(delB, delW)
