@@ -41,8 +41,7 @@ class NeuralNetwork(object):
             a = sigmoid(np.dot(w, a)+b)
         return a
 
-    def SGD(self, trainingData, epochs, mini_batch_size, eta,
-            testData=None):
+    def train(self, trainingData, epochs, mini_batch_size, eta, testData=None):
         """Train the neural network using mini-batch stochastic
         gradient descent.  The ``trainingData`` is a list of tuples
         ``(x, y)`` representing the training inputs and the desired
