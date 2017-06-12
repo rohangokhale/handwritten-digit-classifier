@@ -22,9 +22,9 @@ class NeuralNetwork(object):
 			a = sigmoid(np.dot(bias, weight) + b)
 		return a
 
-	def train(self, trainingData, numEpochs, miniBatchSize, learnRate, validateData=None):
-		if validateData:
-			nTest=len(validateData)
+	def train(self, trainingData, numEpochs, miniBatchSize, learnRate, testData=None):
+		if testData:
+			nTest=len(test)
 		n=len(trainingData)
 		for epoch in xrange(numEpochs):
 			"""create mini batches by shuffling the data and then chopping it up into
@@ -33,8 +33,8 @@ class NeuralNetwork(object):
 			miniBatches = [trainingData[k:(k+miniBatchSize)] for k in range(0, n, miniBatchSize)]
 			for batch in miniBatches:
 				self.updateMiniBatch(batch, learnRate)
-			if validateData:
-				accuracy = 100.0*self.evaluate(validateData)/nTest
+			if testData:
+				accuracy = 100.0*self.evaluate(testData)/nTest
 				print("Epoch {0}: {1}".format(epoch, accuracy))
 			else:
 				print("Epoch {0} done".format(epoch))
