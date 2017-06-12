@@ -19,7 +19,7 @@ class NeuralNetwork(object):
 
 	def feedForward(self, a):
 		for bias, weight in zip(self.biases, self.weights):
-			a = sigmoid(np.dot(bias, weight) + b)
+			a = sigmoid(np.dot(weight, a) + bias)
 		return a
 
 	def train(self, trainingData, numEpochs, miniBatchSize, learnRate, testData=None):
