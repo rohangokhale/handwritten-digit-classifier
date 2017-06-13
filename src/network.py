@@ -63,6 +63,10 @@ class NeuralNetwork(object):
                 print "Epoch {0}: {1} {2} / {3}".format(epochNum+1, float(numCorrect)/nTest*100.0, numCorrect, nTest)
             else:
                 print "Epoch {0} complete".format(epochNum)
+        print("biases:")
+        print(self.biases)
+        print("weights:")
+        print(self.weights)
 
     def updateMiniBatch(self, miniBatch, learnRate):
         """Update the network's weights and biases by applying
