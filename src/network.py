@@ -16,6 +16,8 @@ import random
 # Third-party libraries
 import numpy as np
 
+import activationfunctions.py
+
 class NeuralNetwork(object):
 
     def __init__(self, layerSizes):
@@ -58,7 +60,7 @@ class NeuralNetwork(object):
                 self.updateMiniBatch(miniBatch, eta)
             if testData:
                 numCorrect = (self.evaluate(testData))
-                print "Epoch {0}: {1} {2} / {3}".format(epochNum, float(numCorrect)/nTest, numCorrect, nTest)
+                print "Epoch {0}: {1} {2} / {3}".format(epochNum, float(numCorrect)/nTest*100.0, numCorrect, nTest)
             else:
                 print "Epoch {0} complete".format(j)
 
@@ -125,12 +127,3 @@ class NeuralNetwork(object):
         """Return the vector of partial derivatives \partial C_x /
         \partial a for the output activations."""
         return (outputActivations-y)
-
-#### Miscellaneous functions
-def sigmoid(z):
-    """The sigmoid function."""
-    return 1.0/(1.0+np.exp(-z))
-
-def sigmoidPrime(z):
-    """Derivative of the sigmoid function."""
-    return sigmoid(z)*(1-sigmoid(z))
