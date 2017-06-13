@@ -16,7 +16,7 @@ import random
 # Third-party libraries
 import numpy as np
 
-import activationfunctions.py
+import activationfunctions
 
 class NeuralNetwork(object):
 
