@@ -42,7 +42,7 @@ class NeuralNetwork(object):
             a = sigmoid(np.dot(w, a)+b)
         return a
 
-    def train(self, trainingData, epochs, miniBatchSize, eta, testData=None):
+    def train(self, trainingData, epochs, miniBatchSize, learnRate, testData=None):
         """Train the neural network using -batch stochastic
         gradient descent.  The ``trainingData`` is a list of tuples
         ``(x, y)`` representing the training inputs and the desired
@@ -57,17 +57,17 @@ class NeuralNetwork(object):
             random.shuffle(trainingData)
             miniBatches = [trainingData[k:k+miniBatchSize] for k in xrange(0, n, miniBatchSize)]
             for miniBatch in miniBatches:
-                self.updateMiniBatch(miniBatch, eta)
+                self.updateMiniBatch(miniBatch, learnRate)
             if testData:
                 numCorrect = (self.evaluate(testData))
-                print "Epoch {0}: {1} {2} / {3}".format(epochNum, float(numCorrect)/nTest*100.0, numCorrect, nTest)
+                print "Epoch {0}: {1} {2} / {3}".format(epochNum+1, float(numCorrect)/nTest*100.0, numCorrect, nTest)
             else:
-                print "Epoch {0} complete".format(j)
+                print "Epoch {0} complete".format(epochNum)
 
-    def updateMiniBatch(self, miniBatch, eta):
+    def updateMiniBatch(self, miniBatch, learnRate):
         """Update the network's weights and biases by applying
         gradient descent using backpropagation to a single mini batch.
-        The ``miniBatch`` is a list of tuples ``(x, y)``, and ``eta``
+        The ``miniBatch`` is a list of tuples ``(x, y)``, and ``learnRate``
         is the learning rate."""
         delB = [np.zeros(b.shape) for b in self.biases]
         delW = [np.zeros(w.shape) for w in self.weights]
@@ -75,9 +75,9 @@ class NeuralNetwork(object):
             delta_delB, delta_delW = self.backprop(x, y)
             delB = [dB+ddB for dB, ddB in zip(delB, delta_delB)]
             delW = [dW+ddW for dW, ddW in zip(delW, delta_delW)]
-        self.weights = [w-(eta/len(miniBatch))*dW
+        self.weights = [w-(learnRate/len(miniBatch))*dW
                         for w, dW in zip(self.weights, delW)]
-        self.biases = [b-(eta/len(miniBatch))*dB
+        self.biases = [b-(learnRate/len(miniBatch))*dB
                        for b, dB in zip(self.biases, delB)]
 
     def backprop(self, x, y):
