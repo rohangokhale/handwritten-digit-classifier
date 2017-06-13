@@ -16,7 +16,7 @@ import random
 # Third-party libraries
 import numpy as np
 
-import activationfunctions
+from activationfunctions import sigmoid, sigmoidPrime
 
 class NeuralNetwork(object):
 
