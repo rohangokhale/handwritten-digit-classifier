@@ -58,7 +58,7 @@ class NeuralNetwork(object):
                 self.updateMiniBatch(miniBatch, eta)
             if testData:
                 numCorrect = (self.evaluate(testData))
-                print "Epoch {0}: {1} {2} / {3}".format(epochNum, numCorrect/nTest, numCorrect, nTest)
+                print "Epoch {0}: {1} {2} / {3}".format(epochNum, float(numCorrect)/nTest, numCorrect, nTest)
             else:
                 print "Epoch {0} complete".format(j)
 
