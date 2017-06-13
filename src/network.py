@@ -18,8 +18,8 @@ import numpy as np
 
 class NeuralNetwork(object):
 
-    def __init__(self, sizes):
-        """The list ``sizes`` contains the number of neurons in the
+    def __init__(self, layerSizes):
+        """The list ``layerSizes`` contains the number of neurons in the
         respective layers of the network.  For example, if the list
         was [2, 3, 1] then it would be a three-layer network, with the
         first layer containing 2 neurons, the second layer 3 neurons,
@@ -29,11 +29,10 @@ class NeuralNetwork(object):
         layer is assumed to be an input layer, and by convention we
         won't set any biases for those neurons, since biases are only
         ever used in computing the outputs from later layers."""
-        self.numLayers = len(sizes)
-        self.sizes = sizes
-        self.biases = [np.random.randn(y, 1) for y in sizes[1:]]
-        self.weights = [np.random.randn(y, x)
-                        for x, y in zip(sizes[:-1], sizes[1:])]
+        self.numLayers = len(layerSizes)
+        self.layerSizes = layerSizes
+        self.biases = [np.random.randn(y, 1) for y in layerSizes[1:]]
+        self.weights = [np.random.randn(y, x) for x, y in zip(layerSizes[:-1], layerSizes[1:])]
 
     def feedforward(self, a):
         """Return the output of the network if ``a`` is input."""
@@ -52,16 +51,14 @@ class NeuralNetwork(object):
         tracking progress, but slows things down substantially."""
         if testData: n_test = len(testData)
         n = len(trainingData)
-        for j in xrange(epochs):
+        for epochNum in xrange(epochs):
             random.shuffle(trainingData)
-            mini_batches = [
-                trainingData[k:k+mini_batch_size]
-                for k in xrange(0, n, mini_batch_size)]
+            mini_batches = [trainingData[k:k+mini_batch_size] for k in xrange(0, n, mini_batch_size)]
             for mini_batch in mini_batches:
                 self.update_mini_batch(mini_batch, eta)
             if testData:
                 print "Epoch {0}: {1} / {2}".format(
-                    j, self.evaluate(testData), n_test)
+                    epochNum, self.evaluate(testData), n_test)
             else:
                 print "Epoch {0} complete".format(j)
 
