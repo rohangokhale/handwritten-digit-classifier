@@ -40,8 +40,8 @@ class NeuralNetwork(object):
             a = sigmoid(np.dot(w, a)+b)
         return a
 
-    def train(self, trainingData, epochs, mini_batch_size, eta, testData=None):
-        """Train the neural network using mini-batch stochastic
+    def train(self, trainingData, epochs, miniBatchSize, eta, testData=None):
+        """Train the neural network using -batch stochastic
         gradient descent.  The ``trainingData`` is a list of tuples
         ``(x, y)`` representing the training inputs and the desired
         outputs.  The other non-optional parameters are
@@ -49,33 +49,33 @@ class NeuralNetwork(object):
         network will be evaluated against the test data after each
         epoch, and partial progress printed out.  This is useful for
         tracking progress, but slows things down substantially."""
-        if testData: n_test = len(testData)
+        if testData: nTest = len(testData)
         n = len(trainingData)
         for epochNum in xrange(epochs):
             random.shuffle(trainingData)
-            mini_batches = [trainingData[k:k+mini_batch_size] for k in xrange(0, n, mini_batch_size)]
-            for mini_batch in mini_batches:
-                self.update_mini_batch(mini_batch, eta)
+            miniBatches = [trainingData[k:k+miniBatchSize] for k in xrange(0, n, miniBatchSize)]
+            for miniBatch in miniBatches:
+                self.updateMiniBatch(miniBatch, eta)
             if testData:
                 print "Epoch {0}: {1} / {2}".format(
-                    epochNum, self.evaluate(testData), n_test)
+                    epochNum, self.evaluate(testData), nTest)
             else:
                 print "Epoch {0} complete".format(j)
 
-    def update_mini_batch(self, mini_batch, eta):
+    def updateMiniBatch(self, miniBatch, eta):
         """Update the network's weights and biases by applying
         gradient descent using backpropagation to a single mini batch.
-        The ``mini_batch`` is a list of tuples ``(x, y)``, and ``eta``
+        The ``miniBatch`` is a list of tuples ``(x, y)``, and ``eta``
         is the learning rate."""
         delB = [np.zeros(b.shape) for b in self.biases]
         delW = [np.zeros(w.shape) for w in self.weights]
-        for x, y in mini_batch:
+        for x, y in miniBatch:
             delta_delB, delta_delW = self.backprop(x, y)
             delB = [dB+ddB for dB, ddB in zip(delB, delta_delB)]
             delW = [dW+ddW for dW, ddW in zip(delW, delta_delW)]
-        self.weights = [w-(eta/len(mini_batch))*dW
+        self.weights = [w-(eta/len(miniBatch))*dW
                         for w, dW in zip(self.weights, delW)]
-        self.biases = [b-(eta/len(mini_batch))*dB
+        self.biases = [b-(eta/len(miniBatch))*dB
                        for b, dB in zip(self.biases, delB)]
 
     def backprop(self, x, y):
@@ -95,7 +95,7 @@ class NeuralNetwork(object):
             activation = sigmoid(z)
             activations.append(activation)
         # backward pass
-        delta = self.cost_derivative(activations[-1], y) * sigmoid_prime(zs[-1])
+        delta = self.cost_derivative(activations[-1], y) * sigmoidPrime(zs[-1])
         delB[-1] = delta
         delW[-1] = np.dot(delta, activations[-2].transpose())
         # Note that the variable l in the loop below is used a little
@@ -106,7 +106,7 @@ class NeuralNetwork(object):
         # that Python can use negative indices in lists.
         for l in xrange(2, self.numLayers):
             z = zs[-l]
-            sPrime = sigmoid_prime(z)
+            sPrime = sigmoidPrime(z)
             delta = np.dot(self.weights[-l+1].transpose(), delta) * sPrime
             delB[-l] = delta
             delW[-l] = np.dot(delta, activations[-l-1].transpose())
@@ -117,20 +117,20 @@ class NeuralNetwork(object):
         network outputs the correct result. Note that the neural
         network's output is assumed to be the index of whichever
         neuron in the final layer has the highest activation."""
-        test_results = [(np.argmax(self.feedforward(x)), y)
+        testResults = [(np.argmax(self.feedforward(x)), y)
                         for (x, y) in testData]
-        return sum(int(x == y) for (x, y) in test_results)
+        return sum(int(x == y) for (x, y) in testResults)
 
-    def cost_derivative(self, output_activations, y):
+    def cost_derivative(self, outputActivations, y):
         """Return the vector of partial derivatives \partial C_x /
         \partial a for the output activations."""
-        return (output_activations-y)
+        return (outputActivations-y)
 
 #### Miscellaneous functions
 def sigmoid(z):
     """The sigmoid function."""
     return 1.0/(1.0+np.exp(-z))
 
-def sigmoid_prime(z):
+def sigmoidPrime(z):
     """Derivative of the sigmoid function."""
     return sigmoid(z)*(1-sigmoid(z))
