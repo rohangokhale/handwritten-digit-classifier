@@ -7,15 +7,15 @@ def getLayerCount():
 	layerCount = 0
 	while layerCount <= 0:
 		layerCount = int(input("How many hidden layers would you like in your network? \n \
-			(choose a number between 1 and 10):"))
+			(choose a number between 1 and 10): "))
 	return layerCount
 
 def getLayerSizes(layerCount):
 	layerSizes = []
-	for i in range(1, layerCount):
+	for i in range(0, layerCount):
 		layerSize = 0
 		while layerSize <= 0:
-			layerSize = int(input("Enter the number of neurons that layer " + str(i) + "should have)"))
+			layerSize = int(input("Enter the number of neurons that layer " + str(i+1) + " should have: "))
 		layerSizes.append(layerSize)
 	return layerSizes
 
