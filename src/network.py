@@ -69,7 +69,7 @@ class NeuralNetwork(object):
         print ("Accuracy: {0}: {1} ({2} / {3} correct classifications)".format(epochNum+1, float(numCorrect)/nTest*100.0, numCorrect, nTest))
 
         endTime = int(round(time.time()))
-        print("Time to train: {0}".format(endTime-startTime))
+        print("Time to train: {0} second.".format(endTime-startTime))
         """print("biases:")
         print(self.biases)
         print("weights:")

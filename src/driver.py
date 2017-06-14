@@ -34,7 +34,7 @@ def getMiniBatchSize():
 def getLearnRate():
 	learnRate = 0
 	while learnRate <= 0:
-		learnRate = int(input("Enter the learn rate for the model: "))
+		learnRate = float(input("Enter the learn rate for the model: "))
 	return learnRate
 
 print("Welcome! Let's create and train your neural network to correctly \n \
@@ -47,6 +47,7 @@ layerSizes.append(10)
 net = network.NeuralNetwork(layerSizes)
 
 trainingData, validationData, testData = mnist_loader.load_data_wrapper()
+print("Training network...")
 net.train(trainingData, getEpochs(), getMiniBatchSize(), getLearnRate(), testData=testData)
 
 
