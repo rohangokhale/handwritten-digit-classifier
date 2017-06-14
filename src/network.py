@@ -52,6 +52,7 @@ class NeuralNetwork(object):
         network will be evaluated against the test data after each
         epoch, and partial progress printed out.  This is useful for
         tracking progress, but slows things down substantially."""
+        print("Training network...")
         startTime = int(round(time.time()))
         if testData: nTest = len(testData)
         n = len(trainingData)
@@ -108,7 +109,7 @@ class NeuralNetwork(object):
             activation = sigmoid(z)
             activations.append(activation)
         # backward pass
-        delta = self.cost_derivative(activations[-1], y) * sigmoidPrime(zs[-1])
+        delta = self.costDerivative(activations[-1], y) * sigmoidPrime(zs[-1])
         delB[-1] = delta
         delW[-1] = np.dot(delta, activations[-2].transpose())
         # Note that the variable l in the loop below is used a little
@@ -134,7 +135,20 @@ class NeuralNetwork(object):
                         for (x, y) in testData]
         return sum(int(x == y) for (x, y) in testResults)
 
-    def cost_derivative(self, outputActivations, y):
+    def costDerivative(self, outputActivations, y):
         """Return the vector of partial derivatives \partial C_x /
         \partial a for the output activations."""
         return (outputActivations-y)
+
+    def storeParameters(self, outFilename):
+        return 0
+
+    def loadParameters(self, paramFilename):
+        return 0
+
+    def predict(self, imageData):
+        result = np.argmax(self.feedforward(imageData[0]))
+        #result = np.argmax(self.feedforward(x)), y for (x, y) in imageData
+        print("Prediction: {0}, Actual: {1}".format(result, imageData[1]))
+        return result
+

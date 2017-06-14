@@ -47,8 +47,9 @@ layerSizes.append(10)
 net = network.NeuralNetwork(layerSizes)
 
 trainingData, validationData, testData = mnist_loader.load_data_wrapper()
-print("Training network...")
+
 net.train(trainingData, getEpochs(), getMiniBatchSize(), getLearnRate(), testData=testData)
+print(net.predict(testData[0]))
 
 
 
