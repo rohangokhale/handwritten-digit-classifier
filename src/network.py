@@ -12,6 +12,7 @@ and omits many desirable features.
 #### Libraries
 # Standard library
 import random
+import time
 
 # Third-party libraries
 import numpy as np
@@ -51,6 +52,7 @@ class NeuralNetwork(object):
         network will be evaluated against the test data after each
         epoch, and partial progress printed out.  This is useful for
         tracking progress, but slows things down substantially."""
+        startTime = int(round(time.time()*1000))
         if testData: nTest = len(testData)
         n = len(trainingData)
         for epochNum in xrange(epochs):
@@ -65,6 +67,9 @@ class NeuralNetwork(object):
                 print "Epoch {0} complete".format(epochNum)
         fNumCorrect = (self.evaluate(testData))
         print ("Accuracy: {0}: {1} ({2} / {3} correct classifications)".format(epochNum+1, float(numCorrect)/nTest*100.0, numCorrect, nTest))
+
+        endTime = int(round(time.time()*1000))
+        print("Time to train: {0}".format(endTime-startTime))
         """print("biases:")
         print(self.biases)
         print("weights:")
