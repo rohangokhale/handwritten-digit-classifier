@@ -3,22 +3,6 @@ import mnist_loader
 import network
 
 
-print("Welcome! Let's create and train your neural network to correctly \n \
-	classify digits from the MNIST database of images.")
-
-layerCount = getLayerCount()
-layerSizes = getLayerSizes()
-print layerSizes
-
-
-"""
-trainingData, validationData, testData = mnist_loader.load_data_wrapper()
-
-
-net = network.NeuralNetwork([784, 30, 10])
-net.train(trainingData, 30, 10, 3.0, testData=testData)
-"""
-
 def getLayerCount():
 	layerCount = 0
 	while layerCount <= 0:
@@ -34,3 +18,20 @@ def getLayerSizes(layerCount):
 			layerSize = int(input("Enter the number of neurons that layer " + (i+1) + "should have)"))
 		layerSizes.append(layerSize)
 	return layerSizes
+
+print("Welcome! Let's create and train your neural network to correctly \n \
+	classify digits from the MNIST database of images.")
+
+layerCount = getLayerCount()
+layerSizes = getLayerSizes(layerCount)
+print layerSizes
+
+
+"""
+trainingData, validationData, testData = mnist_loader.load_data_wrapper()
+
+
+net = network.NeuralNetwork([784, 30, 10])
+net.train(trainingData, 30, 10, 3.0, testData=testData)
+"""
+
