@@ -24,14 +24,16 @@ print("Welcome! Let's create and train your neural network to correctly \n \
 
 layerCount = getLayerCount()
 layerSizes = getLayerSizes(layerCount)
+layerSizes.insert(0, 784)
+layerSizes.append(10)
 print layerSizes
 
 
-"""
+
 trainingData, validationData, testData = mnist_loader.load_data_wrapper()
 
 
-net = network.NeuralNetwork([784, 30, 10])
+#net = network.NeuralNetwork([784, 30, 10])
+net = network.NeuralNetwork(layerSizes)
 net.train(trainingData, 30, 10, 3.0, testData=testData)
-"""
 
