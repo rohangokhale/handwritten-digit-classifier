@@ -29,7 +29,7 @@ def getLayerCount():
 def getLayerSizes(layerCount):
 	layerSize = 0
 	layerSizes = []
-	for i in range(1:layerCount):
+	for i in range(1, layerCount):
 		while layerSize <= 0:
 			layerSize = int(input("Enter the number of neurons that layer " + (i+1) + "should have)"))
 		layerSizes.append(layerSize)
