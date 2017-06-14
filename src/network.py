@@ -71,11 +71,11 @@ class NeuralNetwork(object):
 
         endTime = int(round(time.time()))
         print("Time to train: {0} second.".format(endTime-startTime))
-        """print("biases:")
+        print("biases:")
         print(self.biases)
         print("weights:")
         print(self.weights)
-        """
+        
     def updateMiniBatch(self, miniBatch, learnRate):
         """Update the network's weights and biases by applying
         gradient descent using backpropagation to a single mini batch.
