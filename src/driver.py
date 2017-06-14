@@ -15,9 +15,27 @@ def getLayerSizes(layerCount):
 	for i in range(0, layerCount):
 		layerSize = 0
 		while layerSize <= 0:
-			layerSize = int(input("Enter the number of neurons that layer " + str(i+1) + " should have: "))
+			layerSize = int(input("Enter the number of neurons that hidden layer " + str(i+1) + " should have: "))
 		layerSizes.append(layerSize)
 	return layerSizes
+
+def getEpochs():
+	epochs = 0
+	while epochs <= 0:
+		epochs = int(input("Enter how many epochs would you like to run during training: "))
+	return epochs
+
+def getMiniBatchSize():
+	miniBatchSize = 0
+	while miniBatchSize <= 0:
+		miniBatchSize = int(input("Enter the size of each mini batch: "))
+	return miniBatchSize
+
+def getLearnRate():
+	learnRate = 0
+	while learnRate <= 0:
+		learnRate = int(input("Enter the learn rate for the model: "))
+	return learnRate
 
 print("Welcome! Let's create and train your neural network to correctly \n \
 	classify digits from the MNIST database of images.")
@@ -26,14 +44,18 @@ layerCount = getLayerCount()
 layerSizes = getLayerSizes(layerCount)
 layerSizes.insert(0, 784)
 layerSizes.append(10)
-print layerSizes
-
-
+net = network.NeuralNetwork(layerSizes)
 
 trainingData, validationData, testData = mnist_loader.load_data_wrapper()
+net.train(trainingData, getEpochs(), getMiniBatchSize(), getLearnRate(), testData=testData)
+
+
+
+
+
 
 
 #net = network.NeuralNetwork([784, 30, 10])
-net = network.NeuralNetwork(layerSizes)
-net.train(trainingData, 30, 10, 3.0, testData=testData)
+
+#net.train(trainingData, 30, 10, 3.0, testData=testData)
 
