@@ -11,5 +11,6 @@ with open('params.json', 'w') as outFile:
 with open('params.json', 'r') as inFile:
 	loadedParams = json.load(inFile)
 
-print loadedParams
+print loadedParams['biases']
+print loadedParams['weights']
 #print jsonData
