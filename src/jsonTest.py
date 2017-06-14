@@ -8,4 +8,8 @@ jsonData = json.dumps([{'biases':biases}, {'weights':weights}])
 with open('params.json', 'w') as outFile:
 	json.dump(jsonData, outFile)
 
+with open('params.json', 'r') as inFile:
+	loadedParams = json.load(inFile)
+
+print loadedParams
 #print jsonData
