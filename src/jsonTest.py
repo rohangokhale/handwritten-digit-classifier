@@ -1,4 +1,5 @@
 import json
 biases = [["b1"], ["b2", ["b2a"]], ["b3"]]
-jsonBiases = json.dumps([b for b in biases])
+#jsonBiases = json.dumps([b for b in biases])
+jsonBiases = json.dumps(biases)
 print jsonBiases
