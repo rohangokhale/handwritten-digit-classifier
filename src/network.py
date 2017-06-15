@@ -165,7 +165,7 @@ class NeuralNetwork(object):
         print("Prediction: {0}, Actual: {1}".format(result, imageData[1]))
         return result
 
-def loadParameters(self, paramFilename):
+def loadParameters(paramFilename):
     paramFile = open(paramFilename, 'r')
     params = json.load(paramFile)
     paramFile.close()
