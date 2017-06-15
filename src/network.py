@@ -13,6 +13,7 @@ and omits many desirable features.
 # Standard library
 import random
 import time
+import json
 
 # Third-party libraries
 import numpy as np
@@ -141,7 +142,9 @@ class NeuralNetwork(object):
         return (outputActivations-y)
 
     def storeParameters(self, outFilename):
-        return 0
+        pythonData = {'biases': self.biases, 'weights':self.weights}
+        with open(outFilename, 'w') as outFile:
+            json.dump(pythonData, outFile)
 
     def loadParameters(self, paramFilename):
         return 0
