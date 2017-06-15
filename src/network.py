@@ -142,9 +142,11 @@ class NeuralNetwork(object):
         return (outputActivations-y)
 
     def storeParameters(self, outFilename):
+        print(type(self.biases))
+        print(type(self.weights))
         pythonData = {'biases': self.biases, 'weights':self.weights}
-        with open(outFilename, 'w') as outFile:
-            json.dump(pythonData, outFile)
+        #with open(outFilename, 'w') as outFile:
+        #    json.dump(pythonData, outFile)
 
     def loadParameters(self, paramFilename):
         return 0
