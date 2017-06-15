@@ -142,12 +142,19 @@ class NeuralNetwork(object):
         return (outputActivations-y)
 
     def storeParameters(self, outFilename):
-        print(type(self.biases))
-        print(type(self.weights))
-        pythonData = {'biases': self.biases, 'weights':self.weights}
-        print(type(pythonData))
-        pythonData = dict(pythonData)
-        print(type(pythonData))
+        #print(type(self.biases))
+        #print(type(self.weights))
+        #pythonData = {'biases': self.biases, 'weights':self.weights}
+        #print(type(pythonData))
+        #pythonData = dict(pythonData)
+        #print(type(pythonData))
+
+        params = {"sizes": self.layerSizes,
+                    "weights": [w.tolist() for w in self.weights],
+                    "biases": [b.tolist() for b in self.biases],
+                    }
+        with open(outFilename, 'w') as outfile:
+            json.dump(params, outfile)
         #with open(outFilename, 'w') as outFile:
         #    json.dump(pythonData, outFile)
 
