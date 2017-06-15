@@ -13,7 +13,7 @@ with open('params.json', 'w') as outFile:
 	json.dump(pythonData, outFile)
 
 with open('params.json', 'r') as inFile:
-	loadedParams = json.loads(inFile)
+	loadedParams = json.load(inFile)
 
 print loadedParams['biases']
 print loadedParams['weights']
