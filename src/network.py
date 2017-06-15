@@ -149,7 +149,7 @@ class NeuralNetwork(object):
         #pythonData = dict(pythonData)
         #print(type(pythonData))
 
-        params = {"sizes": self.layerSizes,
+        params = {"layerSizes": self.layerSizes,
                     "weights": [w.tolist() for w in self.weights],
                     "biases": [b.tolist() for b in self.biases],
                     }
@@ -158,8 +158,6 @@ class NeuralNetwork(object):
         #with open(outFilename, 'w') as outFile:
         #    json.dump(pythonData, outFile)
 
-    def loadParameters(self, paramFilename):
-        return 0
 
     def predict(self, imageData):
         result = np.argmax(self.feedforward(imageData[0]))
@@ -167,3 +165,12 @@ class NeuralNetwork(object):
         print("Prediction: {0}, Actual: {1}".format(result, imageData[1]))
         return result
 
+def loadParameters(self, paramFilename):
+    paramFile = open(paramFilename, 'r')
+    params = json.load(paramFile)
+    paramFile.close()
+
+    net = Network(params["layerSizes"])
+    net.biases = [np.array(bias) for bias in params["biases"]]
+    net.weights = [np.array(weight) for weight in params["weights"]]
+    return net
