@@ -72,10 +72,10 @@ class NeuralNetwork(object):
 
         endTime = int(round(time.time()))
         print("Time to train: {0} second.".format(endTime-startTime))
-        print("biases:")
-        print(self.biases)
-        print("weights:")
-        print(self.weights)
+        #print("biases:")
+        #print(self.biases)
+        #print("weights:")
+        #print(self.weights)
         
     def updateMiniBatch(self, miniBatch, learnRate):
         """Update the network's weights and biases by applying
@@ -142,12 +142,6 @@ class NeuralNetwork(object):
         return (outputActivations-y)
 
     def storeParameters(self, outFilename):
-        #print(type(self.biases))
-        #print(type(self.weights))
-        #pythonData = {'biases': self.biases, 'weights':self.weights}
-        #print(type(pythonData))
-        #pythonData = dict(pythonData)
-        #print(type(pythonData))
 
         params = {"layerSizes": self.layerSizes,
                     "weights": [w.tolist() for w in self.weights],
@@ -155,8 +149,6 @@ class NeuralNetwork(object):
                     }
         with open(outFilename, 'w') as outfile:
             json.dump(params, outfile)
-        #with open(outFilename, 'w') as outFile:
-        #    json.dump(pythonData, outFile)
 
 
     def predict(self, imageData):
