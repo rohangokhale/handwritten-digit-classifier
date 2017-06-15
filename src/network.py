@@ -145,6 +145,9 @@ class NeuralNetwork(object):
         print(type(self.biases))
         print(type(self.weights))
         pythonData = {'biases': self.biases, 'weights':self.weights}
+        print(type(pythonData))
+        pythonData = dict(pythonData)
+        print(type(pythonData))
         #with open(outFilename, 'w') as outFile:
         #    json.dump(pythonData, outFile)
 
