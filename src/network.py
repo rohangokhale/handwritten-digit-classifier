@@ -170,7 +170,7 @@ def loadParameters(paramFilename):
     params = json.load(paramFile)
     paramFile.close()
 
-    net = Network(params["layerSizes"])
+    net = NeuralNetwork(params["layerSizes"])
     net.biases = [np.array(bias) for bias in params["biases"]]
     net.weights = [np.array(weight) for weight in params["weights"]]
     return net
