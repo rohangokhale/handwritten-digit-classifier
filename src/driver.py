@@ -49,7 +49,9 @@ net = network.NeuralNetwork(layerSizes)
 trainingData, validationData, testData = mnist_loader.load_data_wrapper()
 
 net.train(trainingData, getEpochs(), getMiniBatchSize(), getLearnRate(), testData=testData)
-print(net.predict(testData[200]))
+print(net.predict(testData[204]))
+
+net.storeParameters(myParams.json)
 
 
 
