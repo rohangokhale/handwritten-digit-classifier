@@ -1,7 +1,5 @@
+#network.py
 """
-network.py
-~~~~~~~~~~
-
 A module to implement the stochastic gradient descent learning
 algorithm for a feedforward neural network.  Gradients are calculated
 using backpropagation.  Note that I have focused on making the code
@@ -9,50 +7,39 @@ simple, easily readable, and easily modifiable.  It is not optimized,
 and omits many desirable features.
 """
 
-#### Libraries
-# Standard library
 import random
 import time
 import json
-
-# Third-party libraries
 import numpy as np
-
 from activationfunctions import sigmoid, sigmoidPrime
 
 class NeuralNetwork(object):
 
     def __init__(self, layerSizes):
-        """The list ``layerSizes`` contains the number of neurons in the
-        respective layers of the network.  For example, if the list
-        was [2, 3, 1] then it would be a three-layer network, with the
-        first layer containing 2 neurons, the second layer 3 neurons,
-        and the third layer 1 neuron.  The biases and weights for the
-        network are initialized randomly, using a Gaussian
-        distribution with mean 0, and variance 1.  Note that the first
-        layer is assumed to be an input layer, and by convention we
-        won't set any biases for those neurons, since biases are only
-        ever used in computing the outputs from later layers."""
+        """The constructor takes a list layerSizes and create a network with the
+        specified number and size of layers. The first layer is the input layer, 
+        and the last is the output layer. All layers in the middle are 'hidden' layers.
+        The biases for each layer after the 1st and the weights connecting pairs of
+        neurons between layers are initialized with random numbers using a Gaussian
+        distributions. The initialized parameters have a mean of zero, and a variance
+        of 1."""
         self.numLayers = len(layerSizes)
         self.layerSizes = layerSizes
         self.biases = [np.random.randn(y, 1) for y in layerSizes[1:]]
         self.weights = [np.random.randn(y, x) for x, y in zip(layerSizes[:-1], layerSizes[1:])]
 
     def feedforward(self, a):
-        """Return the output of the network if ``a`` is input."""
+        """Takes an input 'a' and feeds it through each layer of the nework, eventually returning
+        the output of the output layer."""
         for b, w in zip(self.biases, self.weights):
             a = sigmoid(np.dot(w, a)+b)
         return a
 
     def train(self, trainingData, epochs, miniBatchSize, learnRate, testData=None):
-        """Train the neural network using -batch stochastic
-        gradient descent.  The ``trainingData`` is a list of tuples
-        ``(x, y)`` representing the training inputs and the desired
-        outputs.  The other non-optional parameters are
-        self-explanatory.  If ``testData`` is provided then the
-        network will be evaluated against the test data after each
-        epoch, and partial progress printed out.  This is useful for
-        tracking progress, but slows things down substantially."""
+        """Trains the neural net with the supplied trainingData and the specfied hyperparameters.
+        This is done using a stochastic gradient descent method. testData being supplied will
+        evaluate the network after each epoch and print out the accurary of the network at that
+        point in time."""
         print("Training network...")
         startTime = int(round(time.time()))
         if testData: nTest = len(testData)
@@ -71,17 +58,12 @@ class NeuralNetwork(object):
         print ("Accuracy: {0}: {1} ({2} / {3} correct classifications)".format(epochNum+1, float(numCorrect)/nTest*100.0, numCorrect, nTest))
 
         endTime = int(round(time.time()))
-        print("Time to train: {0} second.".format(endTime-startTime))
-        #print("biases:")
-        #print(self.biases)
-        #print("weights:")
-        #print(self.weights)
-        
+        print("Time to train: {0} seconds.".format(endTime-startTime))
+
     def updateMiniBatch(self, miniBatch, learnRate):
-        """Update the network's weights and biases by applying
-        gradient descent using backpropagation to a single mini batch.
-        The ``miniBatch`` is a list of tuples ``(x, y)``, and ``learnRate``
-        is the learning rate."""
+        """Takes a mini batch of inputs and the learn rate. Adjusts the weights
+        and biases of the network by applying gradient descent, using back propagations
+        to the mini batch."""
         delB = [np.zeros(b.shape) for b in self.biases]
         delW = [np.zeros(w.shape) for w in self.weights]
         for x, y in miniBatch:
@@ -94,31 +76,22 @@ class NeuralNetwork(object):
                        for b, dB in zip(self.biases, delB)]
 
     def backprop(self, x, y):
-        """Return a tuple ``(delB, delW)`` representing the
-        gradient for the cost function C_x.  ``delB`` and
-        ``delW`` are layer-by-layer lists of numpy arrays, similar
-        to ``self.biases`` and ``self.weights``."""
+        """Returns the graident for the cost function. This is represented
+        by the delB and delW values for the biases and weights."""
         delB = [np.zeros(b.shape) for b in self.biases]
         delW = [np.zeros(w.shape) for w in self.weights]
-        # feedforward
         activation = x
-        activations = [x] # list to store all the activations, layer by layer
-        zs = [] # list to store all the z vectors, layer by layer
+        activations = [x] 
+        zs = []
         for b, w in zip(self.biases, self.weights):
             z = np.dot(w, activation)+b
             zs.append(z)
             activation = sigmoid(z)
             activations.append(activation)
-        # backward pass
         delta = self.costDerivative(activations[-1], y) * sigmoidPrime(zs[-1])
         delB[-1] = delta
         delW[-1] = np.dot(delta, activations[-2].transpose())
-        # Note that the variable l in the loop below is used a little
-        # differently to the notation in Chapter 2 of the book.  Here,
-        # l = 1 means the last layer of neurons, l = 2 is the
-        # second-last layer, and so on.  It's a renumbering of the
-        # scheme in the book, used here to take advantage of the fact
-        # that Python can use negative indices in lists.
+
         for l in xrange(2, self.numLayers):
             z = zs[-l]
             sPrime = sigmoidPrime(z)
@@ -128,21 +101,21 @@ class NeuralNetwork(object):
         return (delB, delW)
 
     def evaluate(self, testData):
-        """Return the number of test inputs for which the neural
-        network outputs the correct result. Note that the neural
-        network's output is assumed to be the index of whichever
-        neuron in the final layer has the highest activation."""
+        """Takes a number of test inputs in testData, evaluates what output
+        the neural network gives, and compare the output to the correct
+        expected output. The total number of correct predictions is returned."""
         testResults = [(np.argmax(self.feedforward(x)), y)
                         for (x, y) in testData]
         return sum(int(x == y) for (x, y) in testResults)
 
     def costDerivative(self, outputActivations, y):
-        """Return the vector of partial derivatives \partial C_x /
-        \partial a for the output activations."""
+        """Returns a vector containing the partial derivatives for the
+        output activations."""
         return (outputActivations-y)
 
     def storeParameters(self, outFilename):
-
+        """Writes the parameters (layer sizes, weights, and biases) to file
+        with the specified name"""
         params = {"layerSizes": self.layerSizes,
                     "weights": [w.tolist() for w in self.weights],
                     "biases": [b.tolist() for b in self.biases],
@@ -152,16 +125,18 @@ class NeuralNetwork(object):
 
 
     def predict(self, imageData):
+        """Takes a single set of image data and returns the predicted digit represented by it."""
         result = np.argmax(self.feedforward(imageData[0]))
-        #result = np.argmax(self.feedforward(x)), y for (x, y) in imageData
         print("Prediction: {0}, Actual: {1}".format(result, imageData[1]))
         return result
 
-def loadParameters(paramFilename):
-    paramFile = open(paramFilename, 'r')
-    params = json.load(paramFile)
-    paramFile.close()
-
+def loadNetwork(paramsFilename):
+    """Returns a neural network object with the layer details, weights, and biases provided
+    in paramsFilename. This file should be json formatted."""
+    paramsFile = open(paramsFilename, 'r')
+    params = json.load(paramsFile)
+    paramsFile.close()
+ 
     net = NeuralNetwork(params["layerSizes"])
     net.biases = [np.array(bias) for bias in params["biases"]]
     net.weights = [np.array(weight) for weight in params["weights"]]

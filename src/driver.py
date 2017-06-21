@@ -54,7 +54,7 @@ print(net.predict(testData[204]))
 net.storeParameters("myParams.json")
 
 
-loadedNet = network.loadParameters("myParams.json")
+loadedNet = network.loadNetwork("myParams.json")
 
 loadedNet.train(trainingData, getEpochs(), getMiniBatchSize(), getLearnRate(), testData=testData)
 print(loadedNet.predict(testData[204]))
