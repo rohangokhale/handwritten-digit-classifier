@@ -9,8 +9,3 @@ This project relies heavily on numpy, so please make sure that you install it fi
 
 Usage
 
-
-
-
-
-
