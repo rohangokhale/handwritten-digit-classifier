@@ -9,3 +9,5 @@ This project relies heavily on numpy, so please make sure that you install it fi
 
 Usage
 
+To try a demo of this project, run the demo.py file (in the src folder). You'll be prompted for all of the parameters
+that you'd like your neural network to have, and will be able to view and save the results.
